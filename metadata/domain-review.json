@@ -1,0 +1,73 @@
+{
+  "repo": "lattice-ops-rotate-guard",
+  "language": "JavaScript",
+  "category": "Automation",
+  "goal": "Develop a JavaScript command-oriented project for rotate scenarios with log and snapshot fixtures, replay consistency checks, and no credentials or hosted services.",
+  "review_model": {
+    "terms": [
+      "dry-run spread",
+      "rename risk",
+      "operator cost",
+      "idempotence"
+    ],
+    "lanes": [
+      "ship",
+      "watch",
+      "hold"
+    ],
+    "score": "signal * 2 + slack + confidence - drag * 3",
+    "purpose": "surface the domain-specific cases that need the most careful review"
+  },
+  "cases": [
+    {
+      "name": "baseline",
+      "focus": "dry-run spread",
+      "signal": 71,
+      "slack": 51,
+      "drag": 27,
+      "confidence": 50,
+      "score": 162,
+      "lane": "ship"
+    },
+    {
+      "name": "stress",
+      "focus": "rename risk",
+      "signal": 72,
+      "slack": 32,
+      "drag": 19,
+      "confidence": 46,
+      "score": 165,
+      "lane": "ship"
+    },
+    {
+      "name": "edge",
+      "focus": "operator cost",
+      "signal": 65,
+      "slack": 25,
+      "drag": 8,
+      "confidence": 45,
+      "score": 176,
+      "lane": "ship"
+    },
+    {
+      "name": "recovery",
+      "focus": "idempotence",
+      "signal": 71,
+      "slack": 37,
+      "drag": 15,
+      "confidence": 57,
+      "score": 191,
+      "lane": "ship"
+    },
+    {
+      "name": "stale",
+      "focus": "dry-run spread",
+      "signal": 75,
+      "slack": 36,
+      "drag": 13,
+      "confidence": 60,
+      "score": 207,
+      "lane": "ship"
+    }
+  ]
+}

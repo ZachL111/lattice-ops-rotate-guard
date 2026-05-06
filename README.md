@@ -1,69 +1,40 @@
 # lattice-ops-rotate-guard
 
-`lattice-ops-rotate-guard` is a focused JavaScript codebase around develop a JavaScript command-oriented project for rotate scenarios with log and snapshot fixtures, replay consistency checks, and no credentials or hosted services. It is meant to be easy to inspect, run, and extend without a hosted service.
-
-## Lattice Ops Rotate Guard Walkthrough
-
-I would read the project from the outside in: command, fixture, model, then roadmap. That keeps the automation idea grounded in files that can be checked locally.
+`lattice-ops-rotate-guard` keeps a focused JavaScript implementation around automation. The project goal is to develop a JavaScript command-oriented project for rotate scenarios with log and snapshot fixtures, replay consistency checks, and no credentials or hosted services.
 
 ## Reason For The Project
 
-I use this kind of project to make a rule visible before adding more machinery around it. The important part here is not the size of the codebase. It is that the input signals, scoring rule, fixture data, and expected output can all be checked in one sitting.
+I want this repository to be useful as a quick reading exercise: fixtures first, implementation second, verifier last.
 
-## Data Notes
+## Lattice Ops Rotate Guard Review Notes
 
-`degraded` is the first example I would inspect because it lands on the `review` path with a score of 69. The broader file also keeps `degraded` at 69 and `surge` at 288, which gives the model a useful low-to-high spread.
+Start with `dry-run spread` and `dry-run spread`. Those cases create the widest score spread in this repo, so they are the best quick check when the model changes.
+
+## What It Does
+
+- `fixtures/domain_review.csv` adds cases for dry-run spread and rename risk.
+- `metadata/domain-review.json` records the same cases in structured form.
+- `config/review-profile.json` captures the read order and the two review questions.
+- `examples/lattice-ops-rotate-walkthrough.md` walks through the case spread.
+- The JavaScript code includes a review path for `dry-run spread` and `dry-run spread`.
+- `docs/field-notes.md` explains the strongest and weakest cases.
 
 ## How It Is Put Together
 
-The core is a scoring model over demand, capacity, latency, risk, and weight. That keeps dry-run output, file plans, and safety rails in one explicit decision path. The threshold is 178, with risk penalty 4, latency penalty 2, and weight bonus 6. The JavaScript version uses native modules and a small Node test path.
+The core code exposes a scoring path and the added review layer uses `signal`, `slack`, `drag`, and `confidence`. The domain terms are `dry-run spread`, `rename risk`, `operator cost`, and `idempotence`.
 
-## Capabilities
+The JavaScript addition stays small enough to inspect in one sitting.
 
-- Models dry-run output with deterministic scoring and explicit review decisions.
-- Uses fixture data to keep file plans changes visible in code review.
-- Includes extended examples for safety rails, including `surge` and `degraded`.
-- Documents idempotent checks tradeoffs in `docs/operations.md`.
-- Runs locally with a single verification command and no external credentials.
-
-## Command Examples
+## Run It
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/verify.ps1
 ```
 
-This runs the language-level build or test path against the compact fixture set.
+## Check It
 
-## Check The Work
+That command is also the regression path. It verifies the domain cases and catches mismatches between the CSV, metadata, and code.
 
-```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File scripts/audit.ps1
-```
+## Boundaries
 
-The audit command checks repository structure and README constraints before it delegates to the verifier.
-
-## Where Things Live
-
-- `src`: primary implementation
-- `tests`: verification harness
-- `fixtures`: compact golden scenarios
-- `examples`: expanded scenario set
-- `metadata`: project constants and verification metadata
-- `docs`: operations and extension notes
-- `scripts`: local verification and audit commands
-- `package.json`: Node package scripts
-
-## Possible Extensions
-
-- Split the scoring constants into a typed configuration object and validate it before use.
-- Add a comparison mode that shows how decisions change when one signal is adjusted.
-- Add a loader for `examples/extended_cases.csv` and promote selected cases into the language test suite.
-- Add one more automation fixture that focuses on a malformed or borderline input.
-
-## Tradeoffs
-
-The examples cover useful edges, not every edge. A larger version would add malformed-input tests, richer reports, and deeper domain parsers.
-
-## Getting It Running
-
-The only required setup is the local JavaScript toolchain. After cloning, stay in the repo root so fixture paths resolve correctly.
+No external service is required. A deeper version would add more negative cases and a clearer boundary around invalid input.
